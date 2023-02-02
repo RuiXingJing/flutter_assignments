@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
+import 'contact_list/contact_list_page.dart';
 
 class ContactsMainPage extends StatelessWidget{
   const ContactsMainPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(Strings.pageTitleContactList),
-        centerTitle: true,
-      ),
-    );
+    return const ContactListPage();
   }
 }

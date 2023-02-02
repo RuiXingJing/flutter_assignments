@@ -34,6 +34,9 @@ class HomePage extends StatelessWidget {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => page));
         },
-        child: Text(label));
+        child: Text(
+          label,
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ));
   }
 }

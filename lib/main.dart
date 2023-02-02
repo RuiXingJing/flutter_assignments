@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       title: Strings.appName,
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
+        fontFamily: 'OpenSans'
       ),
       home: const HomePage()
     );
