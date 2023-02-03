@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_assignments/contacts/add_contact/view/add_contact_page.dart';
 
 import '../../constants.dart';
 
@@ -38,7 +39,9 @@ class _ContactListPageState extends State<ContactListPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context, AddContactPage.route());
+        },
         child: const Icon(Icons.add),
       ),
     );
@@ -52,6 +55,9 @@ class _ContactListPageState extends State<ContactListPage> {
           TextButton.icon(
               onPressed: () {
                 Scaffold.of(context).closeDrawer();
+                if (label == Strings.drawerItemAdd) {
+                  Navigator.push(context, AddContactPage.route());
+                }
               },
               icon: Icon(icon),
               label: Text(
