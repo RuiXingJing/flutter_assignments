@@ -3,6 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_assignments/contacts/add_contact/model/models.dart';
 import 'package:formz/formz.dart';
 
+import '../../contact_list/contacts_helper.dart';
+
 part 'add_contact_event.dart';
 
 part 'add_contact_state.dart';
@@ -32,10 +34,7 @@ class AddContactBloc extends Bloc<AddContactEvent, AddContactState> {
 
   void _onIsFavoriteChanged(
       IsFavoriteChangedEvent event, Emitter<AddContactState> emit) {
-    var newState = state.copyWith(isFavorite: event.isFavorite);
-    emit(
-        newState
-    );
+    emit(state.copyWith(isFavorite: event.isFavorite));
   }
 
   void _onPhotoChanged(PhotoChangedEvent event, Emitter<AddContactState> emit) {
@@ -52,7 +51,7 @@ class AddContactBloc extends Bloc<AddContactEvent, AddContactState> {
     if (state.status.isValidated) {
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
       try {
-        await Future.delayed(const Duration(seconds: 3));
+        await contactHelper.addContact(state.convertToMap());
         emit(state.copyWith(status: FormzStatus.submissionSuccess));
       } catch (e) {
         emit(state.copyWith(status: FormzStatus.submissionFailure));

@@ -7,6 +7,7 @@ class Strings {
 
   static const String pageTitleTodo = 'Todo List';
   static const String pageTitleContactList = 'Contacts List';
+  static const String pageTitleFavoriteContact = 'Favorite Contacts';
   static const String pageTitleAddContact = 'Add New Contact';
 
   static const String drawerItemContactsList = 'Contacts List';

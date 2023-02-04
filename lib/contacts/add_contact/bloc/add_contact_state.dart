@@ -32,6 +32,16 @@ class AddContactState extends Equatable {
         photo: photo ?? this.photo);
   }
 
+  convertToMap() {
+    return {
+      'name': name.value,
+      'mobile':  mobile.value,
+      'landline':  landline,
+      'photo':  photo,
+      'isFavorite':  isFavorite ? 1 : 0
+    };
+  }
+
   @override
   List<Object> get props => [status, name, mobile, isFavorite, landline, photo];
 }

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 
 import '../../../constants.dart';
+import 'change_photo_button.dart';
 
 class AddContactForm extends StatelessWidget {
   const AddContactForm({super.key});
@@ -12,7 +13,9 @@ class AddContactForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AddContactBloc, AddContactState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        _handleStateChange(context, state);
+      },
       child: BlocBuilder<AddContactBloc, AddContactState>(
         builder: (context, state) {
           return SingleChildScrollView(
@@ -20,7 +23,7 @@ class AddContactForm extends StatelessWidget {
               padding: const EdgeInsets.all(Paddings.padding16),
               child: Column(
                 children: [
-                  _PhotoButton(),
+                  const PhotoButton(),
                   const Padding(padding: EdgeInsets.all(Paddings.padding10)),
                   _NameTextField(),
                   const Padding(
@@ -43,28 +46,11 @@ class AddContactForm extends StatelessWidget {
       ),
     );
   }
-}
 
-class _PhotoButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<AddContactBloc, AddContactState>(
-        builder: (context, state) {
-      return Container(
-        width: 80,
-        height: 80,
-        decoration: BoxDecoration(
-            color: Colors.blueGrey, borderRadius: BorderRadius.circular(40)),
-        child: IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.camera_alt_outlined,
-            color: Colors.white,
-            size: 30,
-          ),
-        ),
-      );
-    });
+  void _handleStateChange(BuildContext context, AddContactState state) {
+    if (state.status.isSubmissionSuccess) {
+      Navigator.of(context).pop();
+    }
   }
 }
 
