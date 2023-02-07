@@ -12,7 +12,6 @@ class AddContactForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('AddContactForm...build');
     return BlocListener<AddContactBloc, AddContactState>(
       listener: (context, state) {
         _handleStateChange(context, state);
@@ -56,7 +55,6 @@ class AddContactForm extends StatelessWidget {
   }
 
   void _handleStateChange(BuildContext context, AddContactState state) {
-    print('listener...._handleStateChange...${state.status}');
     if (state.status.isSubmissionSuccess) {
       Navigator.of(context).pop();
     }
@@ -66,10 +64,8 @@ class AddContactForm extends StatelessWidget {
 class _NameTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print('_NameTextField...build');
     return BlocBuilder<AddContactBloc, AddContactState>(
         builder: (context, state) {
-          print('_NameTextField...build...${state.name.invalid }');
       return TextFormField(
         key: const Key('addContactForm_name_textField'),
         onChanged: (name) {
@@ -89,10 +85,8 @@ class _NameTextField extends StatelessWidget {
 class _MobileTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print('_MobileTextField...build...');
     return BlocBuilder<AddContactBloc, AddContactState>(
         builder: (context, state) {
-          print('_MobileTextField...build...${state.mobile}');
       return TextFormField(
         key: const Key('addContactForm_mobile_textField'),
         onChanged: (mobile) {
