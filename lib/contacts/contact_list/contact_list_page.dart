@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_assignments/contacts/add_contact/view/add_contact_page.dart';
+import 'package:flutter_assignments/contacts/add_update_contact/view/add_update_contact_page.dart';
 import 'package:flutter_assignments/contacts/contact_list/contact_item_widget.dart';
 import 'package:flutter_assignments/contacts/contact_list/contacts_helper.dart';
 import 'package:flutter_assignments/contacts/contact_list/favorite_contacts_list_page.dart';
-import 'package:flutter_assignments/data/model/contact.dart';
+import 'package:flutter_assignments/data/model/Contact.dart';
 
 import '../../constants.dart';
 

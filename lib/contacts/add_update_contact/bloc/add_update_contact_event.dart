@@ -1,4 +1,4 @@
-part of 'add_contact_bloc.dart';
+part of 'add_update_contact_bloc.dart';
 
 abstract class AddContactEvent extends Equatable {
   const AddContactEvent();
@@ -52,6 +52,10 @@ class IsFavoriteChangedEvent extends AddContactEvent {
   List<Object> get props => [isFavorite];
 }
 
-class AddSubmittedEvent extends AddContactEvent {
-  const AddSubmittedEvent();
+class AddOrUpdateSubmittedEvent extends AddContactEvent {
+  const AddOrUpdateSubmittedEvent();
+}
+
+class DeleteSubmittedEvent extends AddContactEvent {
+  const DeleteSubmittedEvent();
 }

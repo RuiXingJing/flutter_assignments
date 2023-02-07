@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../model/contact.dart';
+import '../../model/Contact.dart';
 import 'base_table.dart';
 
 class ContactTable extends BaseTable {
@@ -21,7 +21,7 @@ class ContactTable extends BaseTable {
   @override
   deleteData(num id) async {
     final db = await database;
-    final int result = await db.delete(tableName, where: 'id:$id');
+    final int result = await db.delete(tableName, where: 'id=$id');
     debugPrint('[DB] Delete data from $tableName, result = $result');
   }
 
@@ -65,9 +65,9 @@ class ContactTable extends BaseTable {
   }
 
   @override
-  updateData(Map<String, dynamic> dataMap) async {
+  updateData(Map<String, dynamic> dataMap, num id) async {
     final db = await database;
-    final int result = await db.update(tableName, dataMap);
+    final int result = await db.update(tableName, dataMap, where: 'id = ?', whereArgs: [id]);
     debugPrint(
         '[DB] Update data in $tableName, result = $result, dataMap=$dataMap');
   }

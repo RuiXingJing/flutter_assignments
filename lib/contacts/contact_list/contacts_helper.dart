@@ -1,7 +1,7 @@
 import 'package:flutter_assignments/data/db/db_provider.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../data/model/contact.dart';
+import '../../data/model/Contact.dart';
 
 class ContactsHelper {
   final DatabaseProvider databaseProvider = DatabaseProvider();
@@ -36,8 +36,8 @@ class ContactsHelper {
     getFavoriteContacts();
   }
 
-  updateContact(Map<String, dynamic> dataMap) async {
-    await databaseProvider.contactTable.updateData(dataMap);
+  updateContact(Map<String, dynamic> dataMap, int id) async {
+    await databaseProvider.contactTable.updateData(dataMap, id);
     getAllContacts();
     getFavoriteContacts();
   }

@@ -4,11 +4,14 @@ class Strings {
   static const String buttonTextTodo = 'My Todo List';
   static const String buttonTextContact = 'My Contact App';
   static const String buttonTextSave = 'Save';
+  static const String buttonTextUpdate = 'Update';
+  static const String buttonTextDelete = 'Delete';
 
   static const String pageTitleTodo = 'Todo List';
   static const String pageTitleContactList = 'Contacts List';
   static const String pageTitleFavoriteContact = 'Favorite Contacts';
   static const String pageTitleAddContact = 'Add New Contact';
+  static const String pageTitleUpdateContact = 'Update Contact';
 
   static const String drawerItemContactsList = 'Contacts List';
   static const String drawerItemFavoriteList = 'Favorite List';

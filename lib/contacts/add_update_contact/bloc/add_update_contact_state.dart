@@ -1,4 +1,4 @@
-part of 'add_contact_bloc.dart';
+part of 'add_update_contact_bloc.dart';
 
 class AddContactState extends Equatable {
   const AddContactState(
@@ -7,8 +7,10 @@ class AddContactState extends Equatable {
       this.mobile = const MobileInput.pure(),
       this.isFavorite = false,
       this.landline = '',
-      this.photo = ''});
+      this.photo = '',
+      this.id = -1});
 
+  final int id;
   final FormzStatus status;
   final NameInput name;
   final MobileInput mobile;
@@ -29,16 +31,17 @@ class AddContactState extends Equatable {
         mobile: mobile ?? this.mobile,
         isFavorite: isFavorite ?? this.isFavorite,
         landline: landline ?? this.landline,
-        photo: photo ?? this.photo);
+        photo: photo ?? this.photo,
+        id: id);
   }
 
   convertToMap() {
     return {
       'name': name.value,
-      'mobile':  mobile.value,
-      'landline':  landline,
-      'photo':  photo,
-      'isFavorite':  isFavorite ? 1 : 0
+      'mobile': mobile.value,
+      'landline': landline,
+      'photo': photo,
+      'isFavorite': isFavorite ? 1 : 0
     };
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_assignments/contacts/add_contact/bloc/add_contact_bloc.dart';
-import 'package:flutter_assignments/contacts/add_contact/model/mobile_input.dart';
+import 'package:flutter_assignments/contacts/add_update_contact/bloc/add_update_contact_bloc.dart';
+import 'package:flutter_assignments/contacts/add_update_contact/model/mobile_input.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 
@@ -12,6 +12,7 @@ class AddContactForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('AddContactForm...build');
     return BlocListener<AddContactBloc, AddContactState>(
       listener: (context, state) {
         _handleStateChange(context, state);
@@ -23,7 +24,11 @@ class AddContactForm extends StatelessWidget {
               padding: const EdgeInsets.all(Paddings.padding16),
               child: Column(
                 children: [
-                  const PhotoButton(),
+                  PhotoButton(
+                    avatar: state.id > 0 && state.photo.isNotEmpty
+                        ? state.photo
+                        : null,
+                  ),
                   const Padding(padding: EdgeInsets.all(Paddings.padding10)),
                   _NameTextField(),
                   const Padding(
@@ -37,7 +42,10 @@ class AddContactForm extends StatelessWidget {
                   _FavoriteCheckbox(),
                   const Padding(
                       padding: EdgeInsets.only(bottom: Paddings.padding5)),
-                  _SaveButton()
+                  _SaveButton(),
+                  const Padding(
+                      padding: EdgeInsets.only(bottom: Paddings.padding16)),
+                  _DeleteButton()
                 ],
               ),
             ),
@@ -48,6 +56,7 @@ class AddContactForm extends StatelessWidget {
   }
 
   void _handleStateChange(BuildContext context, AddContactState state) {
+    print('listener...._handleStateChange...${state.status}');
     if (state.status.isSubmissionSuccess) {
       Navigator.of(context).pop();
     }
@@ -57,13 +66,16 @@ class AddContactForm extends StatelessWidget {
 class _NameTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print('_NameTextField...build');
     return BlocBuilder<AddContactBloc, AddContactState>(
         builder: (context, state) {
-      return TextField(
+          print('_NameTextField...build...${state.name.invalid }');
+      return TextFormField(
         key: const Key('addContactForm_name_textField'),
         onChanged: (name) {
           context.read<AddContactBloc>().add(NameChangedEvent(name));
         },
+        initialValue: state.name.value,
         decoration: InputDecoration(
             labelText: Strings.labelNameInput,
             hintText: Strings.hintNameInput,
@@ -77,13 +89,17 @@ class _NameTextField extends StatelessWidget {
 class _MobileTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print('_MobileTextField...build...');
     return BlocBuilder<AddContactBloc, AddContactState>(
         builder: (context, state) {
-      return TextField(
+          print('_MobileTextField...build...${state.mobile}');
+      return TextFormField(
         key: const Key('addContactForm_mobile_textField'),
         onChanged: (mobile) {
           context.read<AddContactBloc>().add(MobileChangedEvent(mobile));
         },
+        initialValue: state.mobile.value,
+        keyboardType: TextInputType.phone,
         decoration: InputDecoration(
             labelText: Strings.labelMobileInput,
             hintText: Strings.hintMobileInput,
@@ -108,11 +124,12 @@ class _LandlineTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AddContactBloc, AddContactState>(
         builder: (context, state) {
-      return TextField(
+      return TextFormField(
         key: const Key('addContactForm_landline_textField'),
         onChanged: (landline) {
           context.read<AddContactBloc>().add(LandlineChangedEvent(landline));
         },
+        initialValue: state.landline,
         decoration: const InputDecoration(
             labelText: Strings.labelLandlineInput,
             hintText: Strings.hintLandlineInput,
@@ -158,17 +175,45 @@ class _SaveButton extends StatelessWidget {
       } else {
         return SizedBox(
           key: const Key('addContactForm_save_button'),
-          width: 100,
+          width: 140,
           height: 40,
           child: ElevatedButton(
               onPressed: () {
-                if (state.status.isValidated) {
-                  context.read<AddContactBloc>().add(const AddSubmittedEvent());
-                }
+                // if (state.status.isValidated) {
+                  context
+                      .read<AddContactBloc>()
+                      .add(const AddOrUpdateSubmittedEvent());
+                // } else {
+                //
+                // }
               },
-              child: const Text(Strings.buttonTextSave)),
+              child: Text(state.id > 0
+                  ? Strings.buttonTextUpdate
+                  : Strings.buttonTextSave)),
         );
       }
+    });
+  }
+}
+
+class _DeleteButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AddContactBloc, AddContactState>(
+        builder: (context, state) {
+      if (state.id < 0) {
+        return Container();
+      }
+      return SizedBox(
+        key: const Key('addContactForm_delete_button'),
+        width: 140,
+        height: 40,
+        child: ElevatedButton(
+            onPressed: () {
+              context.read<AddContactBloc>().add(const DeleteSubmittedEvent());
+            },
+            child: const Text(Strings.buttonTextDelete)),
+      );
     });
   }
 }

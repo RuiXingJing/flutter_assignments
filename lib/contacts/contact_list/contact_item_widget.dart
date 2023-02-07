@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_assignments/contacts/add_update_contact/view/add_update_contact_page.dart';
 
-import '../../data/model/contact.dart';
+import '../../data/model/Contact.dart';
 
 class ContactItemWidget extends StatelessWidget {
   ContactItemWidget({required this.contact}) : super(key: ObjectKey(contact));
@@ -60,6 +61,6 @@ class ContactItemWidget extends StatelessWidget {
   }
 
   void _queryItemDetail(BuildContext context) {
-
+      Navigator.push(context, AddContactPage.route(contact: contact));
   }
 }

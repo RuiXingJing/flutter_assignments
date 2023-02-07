@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../avatar/select_avatar_screen.dart';
-import '../bloc/add_contact_bloc.dart';
+import '../bloc/add_update_contact_bloc.dart';
 
 class PhotoButton extends StatefulWidget {
-  const PhotoButton({super.key});
+  const PhotoButton({super.key, this.avatar});
+
+  final String? avatar;
 
   @override
   State<StatefulWidget> createState() => _PhotoButtonState();
@@ -13,6 +15,12 @@ class PhotoButton extends StatefulWidget {
 
 class _PhotoButtonState extends State<PhotoButton> {
   String? selectedAvatar;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedAvatar = widget.avatar;
+  }
 
   @override
   Widget build(BuildContext context) {

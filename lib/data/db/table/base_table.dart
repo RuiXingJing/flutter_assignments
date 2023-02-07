@@ -11,7 +11,7 @@ abstract class BaseTable{
 
   queryData(num id);
 
-  updateData(Map<String, dynamic> dataMap);
+  updateData(Map<String, dynamic> dataMap, num id);
 
   deleteData(num id);
 }
