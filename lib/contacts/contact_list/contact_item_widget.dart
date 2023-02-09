@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_assignments/contacts/add_update_contact/view/add_update_contact_page.dart';
 
 import '../../data/model/Contact.dart';
+import '../avatar/avatar_model.dart';
 
 class ContactItemWidget extends StatelessWidget {
   ContactItemWidget({required this.contact}) : super(key: ObjectKey(contact));
@@ -48,9 +51,13 @@ class ContactItemWidget extends StatelessWidget {
 
   _getAvatarChild(BuildContext context) {
     if (contact.photo?.isNotEmpty == true) {
-      return CircleAvatar(
-          backgroundColor: Theme.of(context).primaryColor,
-          backgroundImage: AssetImage(contact.photo!));
+      return ClipOval(
+        child: SizedBox.fromSize(
+            size: const Size.fromRadius(30),
+            child: Avatar.isDefaultAvatar(contact.photo!)
+                ? Image.asset(contact.photo!)
+                : Image.file(File(contact.photo!), fit: BoxFit.cover)),
+      );
     } else {
       return CircleAvatar(
           backgroundColor: Theme.of(context).primaryColor,

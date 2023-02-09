@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_assignments/contacts/camera/camera_main_page.dart';
 import 'package:flutter_assignments/todo/todo_main_page.dart';
 
 import 'constants.dart';
@@ -14,18 +15,30 @@ class HomePage extends StatelessWidget {
           title: const Text(Strings.appName),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(Paddings.padding16),
-          child: Row(
-            children: [
-              Padding(
-                  padding: const EdgeInsets.only(right: Paddings.padding20),
-                  child: _assignmentButton(
-                      context, Strings.buttonTextTodo, const TodoMainPage())),
-              _assignmentButton(
-                  context, Strings.buttonTextContact, const ContactsMainPage()),
-            ],
-          ),
-        ));
+            padding: const EdgeInsets.all(Paddings.padding16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Padding(
+                        padding:
+                            const EdgeInsets.only(right: Paddings.padding20),
+                        child: _assignmentButton(context,
+                            Strings.buttonTextTodo, const TodoMainPage())),
+                    Padding(
+                        padding:
+                            const EdgeInsets.only(right: Paddings.padding20),
+                        child: _assignmentButton(
+                            context,
+                            Strings.buttonTextContact,
+                            const ContactsMainPage())),
+                  ],
+                ),
+                _assignmentButton(
+                    context, 'Photo&Video Example', const CameraMainPage(title: 'Photo&Video Example',))
+              ],
+            )));
   }
 
   _assignmentButton(BuildContext context, String label, page) {

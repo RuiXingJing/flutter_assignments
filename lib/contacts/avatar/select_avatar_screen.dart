@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_assignments/constants.dart';
+import 'package:flutter_assignments/contacts/avatar/avatar_model.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SelectAvatarPage extends StatefulWidget {
   SelectAvatarPage({super.key, required this.selectedAvatar});
@@ -23,7 +25,6 @@ class SelectAvatarPage extends StatefulWidget {
     'assets/images/avatar14.jpeg',
     'assets/images/avatar15.jpeg',
     'assets/images/avatar16.jpeg',
-    'assets/images/avatar17.jpeg',
   ];
 
   @override
@@ -32,6 +33,10 @@ class SelectAvatarPage extends StatefulWidget {
 
 class _SelectAvatarPageState extends State<SelectAvatarPage> {
   String? newSelectedAvatar;
+  XFile? photo;
+  final ImagePicker _picker = ImagePicker();
+  dynamic _pickImageError;
+  bool isFromGallery = false;
 
   @override
   void initState() {
@@ -39,26 +44,34 @@ class _SelectAvatarPageState extends State<SelectAvatarPage> {
     newSelectedAvatar = widget.selectedAvatar;
   }
 
+  _onBackToPreviousPage() {
+    var avatar = Avatar();
+    if (photo != null) {
+      avatar.photo = photo;
+      avatar.pickPhotoError = _pickImageError;
+    } else if (newSelectedAvatar != null) {
+      avatar.defaultAvatar = newSelectedAvatar;
+    } else {
+      Navigator.of(context).pop();
+      return;
+    }
+    Navigator.of(context).pop(avatar);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
         appBar: AppBar(
           title: const Text('Select Avatar'),
           centerTitle: true,
           leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pop(newSelectedAvatar);
+              _onBackToPreviousPage();
             },
             icon: const Icon(Icons.arrow_back),
           ),
-          actions: [
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.camera_alt,
-                  color: Colors.white,
-                ))
-          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(Paddings.padding10),
@@ -70,7 +83,42 @@ class _SelectAvatarPageState extends State<SelectAvatarPage> {
               return _gridItem(context, index);
             },
           ),
-        ));
+        ),
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Semantics(
+                label: 'image_picker_example_from_gallery',
+                child: FloatingActionButton(
+                  onPressed: () {
+                    isFromGallery = true;
+                    _onImageButtonPressed(ImageSource.gallery);
+                  },
+                  heroTag: 'image0',
+                  tooltip: 'Pick Image from gallery',
+                  child: const Icon(Icons.photo),
+                )),
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: FloatingActionButton(
+                onPressed: () {
+                  isFromGallery = false;
+                  _onImageButtonPressed(ImageSource.camera);
+                },
+                heroTag: 'image1',
+                tooltip: 'Take a Photo',
+                child: const Icon(Icons.camera_alt),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<bool> _onWillPop() async {
+    _onBackToPreviousPage();
+    return true;
   }
 
   _gridItem(BuildContext context, int index) {
@@ -108,4 +156,36 @@ class _SelectAvatarPageState extends State<SelectAvatarPage> {
     }
     return Container();
   }
+
+  void _onImageButtonPressed(ImageSource source) async {
+    try {
+      final XFile? pickedFile = await _picker.pickImage(
+          source: source, maxWidth: 400, maxHeight: 400, imageQuality: 40);
+      if (pickedFile == null) {
+        photo = await retrieveLostData();
+      } else {
+        photo = pickedFile;
+      }
+      newSelectedAvatar = photo?.path;
+      if (photo != null) {
+        _onBackToPreviousPage();
+      }
+    } catch (e) {
+      _pickImageError = e;
+    }
+  }
+
+  Future<XFile?> retrieveLostData() async {
+    final LostDataResponse response = await _picker.retrieveLostData();
+    if (response.isEmpty) {
+      return null;
+    }
+    if (response.file != null && response.type == RetrieveType.image) {
+      return response.file;
+    }
+    return null;
+  }
 }
+
+typedef OnPickImageCallback = void Function(
+    double? maxWidth, double? maxHeight, int? quality);

@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_assignments/contacts/add_update_contact/bloc/add_update_contact_bloc.dart';
 import 'package:flutter_assignments/contacts/add_update_contact/model/mobile_input.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../../constants.dart';
+import '../../avatar/avatar_model.dart';
 import 'change_photo_button.dart';
 
 class AddContactForm extends StatelessWidget {
@@ -157,13 +161,19 @@ class _FavoriteCheckbox extends StatelessWidget {
   }
 }
 
-class _SaveButton extends StatelessWidget {
+class _SaveButton extends StatefulWidget {
+
+  @override
+  State<StatefulWidget> createState() => _SaveButtonState();
+}
+
+class _SaveButtonState extends State<_SaveButton>{
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AddContactBloc, AddContactState>(
         buildWhen: (previous, current) {
-      return previous.status != current.status;
-    }, builder: (context, state) {
+          return previous.status != current.status;
+        }, builder: (context, state) {
       if (state.status.isSubmissionInProgress) {
         return const CircularProgressIndicator();
       } else {
@@ -173,13 +183,7 @@ class _SaveButton extends StatelessWidget {
           height: 40,
           child: ElevatedButton(
               onPressed: () {
-                // if (state.status.isValidated) {
-                  context
-                      .read<AddContactBloc>()
-                      .add(const AddOrUpdateSubmittedEvent());
-                // } else {
-                //
-                // }
+                  _savePhotoToLocal(state);
               },
               child: Text(state.id > 0
                   ? Strings.buttonTextUpdate
@@ -187,6 +191,33 @@ class _SaveButton extends StatelessWidget {
         );
       }
     });
+  }
+
+  void _savePhotoToLocal(AddContactState state) async {
+    String? newPath = await getPhotoPath(state);
+    if (newPath != null) {
+      await File(state.photo).copy(newPath);
+      setState(() {
+        context
+            .read<AddContactBloc>()
+            .add(PhotoChangedEvent(newPath));
+      });
+    }
+    setState(() {
+      context
+          .read<AddContactBloc>()
+          .add(const AddOrUpdateSubmittedEvent());
+    });
+  }
+
+  Future<String?> getPhotoPath(AddContactState state) async {
+    if (state.photo.isEmpty || Avatar.isDefaultAvatar(state.photo)) return null;
+    String photoName = state.photo.substring(state.photo.lastIndexOf('/'));
+    Directory? storage = await getExternalStorageDirectory();
+    if (storage?.path.isNotEmpty == true) {
+      return '${storage?.path}$photoName';
+    }
+    return null;
   }
 }
 

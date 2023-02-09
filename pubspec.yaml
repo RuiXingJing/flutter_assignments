@@ -42,6 +42,9 @@ dependencies:
   sqflite: ^2.2.4+1
   path: ^1.8.2
   rxdart: ^0.27.7
+  image_picker: ^0.8.6+1
+  video_player: ^2.5.1
+  path_provider: ^2.0.12
 
 dev_dependencies:
   flutter_test:
@@ -83,7 +86,6 @@ flutter:
     - assets/images/avatar14.jpeg
     - assets/images/avatar15.jpeg
     - assets/images/avatar16.jpeg
-    - assets/images/avatar17.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

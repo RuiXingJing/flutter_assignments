@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_assignments/contacts/add_update_contact/model/models.dart';
+import 'package:flutter_assignments/contacts/avatar/avatar_model.dart';
 import 'package:formz/formz.dart';
 
 import '../../../data/model/Contact.dart';
@@ -96,6 +99,10 @@ class AddContactBloc extends Bloc<AddContactEvent, AddContactState> {
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
       await contactHelper.deleteContact(state.id);
+      if (!Avatar.isDefaultAvatar(state.photo)) {
+        final File photo = File(state.photo);
+        await photo.delete();
+      }
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } catch (e) {
       emit(state.copyWith(status: FormzStatus.submissionFailure));
