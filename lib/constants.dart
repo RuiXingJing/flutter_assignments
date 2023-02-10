@@ -6,6 +6,7 @@ class Strings {
   static const String buttonTextSave = 'Save';
   static const String buttonTextUpdate = 'Update';
   static const String buttonTextDelete = 'Delete';
+  static const String buttonTextReload = 'Reload';
 
   static const String pageTitleTodo = 'Todo List';
   static const String pageTitleContactList = 'Contacts List';
@@ -21,6 +22,10 @@ class Strings {
   static const String labelMobileInput = 'Mobile';
   static const String labelLandlineInput = 'Landline';
   static const String labelAddFavorite = 'Add to favorite';
+  static const String labelGiveItAnotherTry = 'Give it another try';
+  static const String labelSomethingWentWrong = 'Something went wrong';
+  static const String labelTodo = 'TODO';
+  static const String labelCompleted = 'Completed';
 
   static const String hintNameInput = 'Contact name';
   static const String hintMobileInput = 'Mobile number';
