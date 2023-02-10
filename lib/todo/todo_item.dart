@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_assignments/data/model/rich_todo.dart';
 
-import '../../constants.dart';
+import '../constants.dart';
 
 class TodoItemWidget extends StatelessWidget {
   TodoItemWidget({required this.toDoItem}) : super(key: ObjectKey(toDoItem));

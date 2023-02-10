@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_assignments/data/repositories/data_repository.dart';
-import 'package:flutter_assignments/todo/view/todo_item.dart';
+import 'package:flutter_assignments/todo/todo_item.dart';
 
-import '../../constants.dart';
-import '../../data/model/rich_todo.dart';
+import '../constants.dart';
+import '../data/model/rich_todo.dart';
 
 class TodoMainPage extends StatefulWidget {
   const TodoMainPage({super.key});

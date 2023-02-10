@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_assignments/contacts/camera/camera_main_page.dart';
-import 'package:flutter_assignments/todo/view/todo_main_page.dart';
+import 'package:flutter_assignments/todo/todo_main_page.dart';
 
 import 'constants.dart';
 import 'contacts/contacts_main_page.dart';
