@@ -19,7 +19,7 @@ class _TodoMainPageState extends State<TodoMainPage> {
   @override
   void initState() {
     super.initState();
-    todoList = dataRepo.getRichTodoList(++dataRepo.currentPage);
+    todoList = dataRepo.getRichTodoList();
   }
 
   @override
@@ -84,7 +84,7 @@ class _TodoMainPageState extends State<TodoMainPage> {
   }
 
   Future<void> _onReload() async {
-    List<RichToDo> result = await dataRepo.getRichTodoList(1);
+    List<RichToDo> result = await dataRepo.getRichTodoList();
     setState(() {
       todoList = Future.value(result);
     });

@@ -9,16 +9,15 @@ class DataRepository {
   static const String authority = 'jsonplaceholder.typicode.com';
   static const String todoList = 'todos';
   static const String userList = 'users';
-  static const int pageSize = 200;
+  static const int pageSize = 20;
   List<User> users = [];
-  int currentPage = 0;
 
-  Future<List<RichToDo>> getRichTodoList(int page) async {
-    currentPage = page;
+  Future<List<RichToDo>> getRichTodoList(
+  {int startIndex = 0, bool isPaging = false}) async {
     List<RichToDo> result = [];
 
     if (users.isEmpty) {
-      await Future.wait([getTodoList(page), getUserList()]).then((value) {
+      await Future.wait([getTodoList(startIndex, isPaging), getUserList()]).then((value) {
         final todos = value[0] as List<ToDo>;
         users = value[1] as List<User>;
         result = _getRichToDo(todos, users);
@@ -27,21 +26,21 @@ class DataRepository {
             "Error Info", StackTrace.fromString("StackTrace Error message"));
       });
     } else {
-      final todos = await getTodoList(page);
+      final todos = await getTodoList(startIndex, isPaging);
       result = _getRichToDo(todos, users);
     }
-
     return result;
   }
 
-  Future<List<ToDo>> getTodoList(int page) async {
-    currentPage = page;
+  Future<List<ToDo>> getTodoList(
+      [int startIndex = 0, bool isPaging = false]) async {
     List<ToDo> result = [];
     try {
-      var url = Uri.https(authority, todoList, <String, String>{
-        '_start': '${(page - 1) * pageSize}',
-        '_limit': '$pageSize'
-      });
+      var url = Uri.https(authority, todoList);
+      if (isPaging) {
+        url = Uri.https(authority, todoList,
+            <String, String>{'_start': '$startIndex', '_limit': '$pageSize'});
+      }
       var todoResponse = await http.get(url);
       if (todoResponse.statusCode == 200) {
         var jsonResponse =

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_assignments/contacts/camera/camera_main_page.dart';
 import 'package:flutter_assignments/todo/todo_main_page.dart';
+import 'package:flutter_assignments/todo_lazy/view/lazy_todo_page.dart';
 
 import 'constants.dart';
 import 'contacts/contacts_main_page.dart';
@@ -19,24 +20,22 @@ class HomePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Padding(
-                        padding:
-                            const EdgeInsets.only(right: Paddings.padding20),
-                        child: _assignmentButton(context,
-                            Strings.buttonTextTodo, const TodoMainPage())),
-                    Padding(
-                        padding:
-                            const EdgeInsets.only(right: Paddings.padding20),
-                        child: _assignmentButton(
-                            context,
-                            Strings.buttonTextContact,
-                            const ContactsMainPage())),
-                  ],
-                ),
-                _assignmentButton(
-                    context, 'Photo&Video Example', const CameraMainPage(title: 'Photo&Video Example',))
+                Padding(
+                    padding: const EdgeInsets.only(right: Paddings.padding20),
+                    child: _assignmentButton(
+                        context, Strings.buttonTextTodo, const TodoMainPage())),
+                Padding(
+                    padding: const EdgeInsets.only(right: Paddings.padding20),
+                    child: _assignmentButton(context,
+                        Strings.buttonTextLazyTodo, const LazyToDoPage())),
+                Padding(
+                    padding: const EdgeInsets.only(right: Paddings.padding20),
+                    child: _assignmentButton(context, Strings.buttonTextContact,
+                        const ContactsMainPage())),
+                Padding(
+                    padding: const EdgeInsets.only(right: Paddings.padding20),
+                    child: _assignmentButton(context, Strings.buttonPhotoVideo,
+                        const CameraMainPage(title: Strings.buttonPhotoVideo))),
               ],
             )));
   }
