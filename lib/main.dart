@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_assignments/data/db/db_provider.dart';
-import 'package:flutter_assignments/home_page.dart';
 
 import 'constants.dart';
+import 'contacts/contacts_main_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,8 +17,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: Strings.appName,
-        theme:
-            ThemeData(primarySwatch: Colors.blueGrey, fontFamily: 'OpenSans'),
-        home: const HomePage());
+        theme: ThemeData(
+            primarySwatch: Colors.blueGrey,
+            fontFamily: 'OpenSans'),
+        home: const ContactsMainPage());
   }
 }

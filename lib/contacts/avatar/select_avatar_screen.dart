@@ -76,8 +76,10 @@ class _SelectAvatarPageState extends State<SelectAvatarPage> {
         body: Padding(
           padding: const EdgeInsets.all(Paddings.padding10),
           child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4, childAspectRatio: 1.0),
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 100,
+                mainAxisSpacing: 5,
+                crossAxisSpacing: 5),
             itemCount: widget.avatars.length,
             itemBuilder: (context, index) {
               return _gridItem(context, index);

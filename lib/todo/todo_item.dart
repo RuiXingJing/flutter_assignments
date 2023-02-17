@@ -27,8 +27,7 @@ class TodoItemWidget extends StatelessWidget {
     return ListTile(
       leading: CircleAvatar(
           backgroundColor: _getColor(context),
-          child: Text(toDoItem.todo.completed ? 'C' : 'T',
-              style: const TextStyle(color: Colors.white))),
+          child: NewWidget(toDoItem: toDoItem)),
       title: Text(
         '[Title]: ${toDoItem.todo.title}',
         maxLines: 2,
@@ -41,5 +40,20 @@ class TodoItemWidget extends StatelessWidget {
       ),
       // trailing: Text(toDoItem.id.toString()),
     );
+  }
+}
+
+class NewWidget extends StatelessWidget {
+  const NewWidget({
+    Key? key,
+    required this.toDoItem,
+  }) : super(key: key);
+
+  final RichToDo toDoItem;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(toDoItem.todo.completed ? 'C' : 'T',
+        style: const TextStyle(color: Colors.white));
   }
 }
